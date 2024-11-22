@@ -45,7 +45,7 @@ jobs:
       # Step 6: 部署至 Cloud Run
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy my-service \
+          gcloud run deploy my-service2 \
             --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/my-project:latest \
             --platform managed \
             --region ${{ secrets.GCP_REGION }} \
