@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
+import { Tabs, Typography, Layout } from 'antd';
+
 import AdminSkills from '@/components/backend/AdminSkills';
 import AdminProfile from '@/components/backend/AdminProfile';
 import AdminProjects from '@/components/backend/AdminProjects';
-import { motion } from 'framer-motion';
+
+const { Title } = Typography;
+const { Header, Content } = Layout;
 
 const AdminDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'skills' | 'profile' | 'projects'>(
-    'skills',
-  );
+  const [activeKey, setActiveKey] = useState<'skills' | 'profile' | 'projects'>('skills');
 
   const renderContent = () => {
-    switch (activeTab) {
+    switch (activeKey) {
       case 'skills':
         return <AdminSkills />;
       case 'profile':
@@ -23,41 +25,28 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
-
-      {/* 標籤導航 */}
-      <div className="flex space-x-4 mb-6 border-b pb-2">
-        {['skills', 'profile', 'projects'].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab as any)}
-            className={`relative px-4 py-2 font-medium text-gray-700 ${
-              activeTab === tab ? 'text-blue-500' : 'hover:text-gray-500'
-            }`}
-          >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            {activeTab === tab && (
-              <motion.div
-                layoutId="underline"
-                className="absolute bottom-0 left-0 w-full h-1 bg-blue-500"
-              />
-            )}
-          </button>
-        ))}
-      </div>
-
-      {/* 動態內容過渡 */}
-      <motion.div
-        key={activeTab}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.3 }}
-      >
-        {renderContent()}
-      </motion.div>
-    </div>
+    <Layout style={{ minHeight: '100vh' }}>
+      <Header style={{ backgroundColor: '#001529', padding: '0 24px' }}>
+        <Title level={3} style={{ color: '#fff', margin: 0 }}>
+          Admin Dashboard
+        </Title>
+      </Header>
+      <Content style={{ padding: '24px', backgroundColor: '#f0f2f5' }}>
+        <Tabs
+          activeKey={activeKey}
+          onChange={(key) => setActiveKey(key as 'skills' | 'profile' | 'projects')}
+          tabBarStyle={{ marginBottom: '24px' }}
+          items={[
+            { key: 'skills', label: 'Skills' },
+            { key: 'profile', label: 'Profile' },
+            { key: 'projects', label: 'Projects' },
+          ]}
+        />
+        <div style={{ backgroundColor: '#fff', padding: '16px', borderRadius: '8px' }}>
+          {renderContent()}
+        </div>
+      </Content>
+    </Layout>
   );
 };
 

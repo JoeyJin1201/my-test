@@ -1,10 +1,23 @@
+import React from 'react';
+import { Layout, Typography, Card } from 'antd';
+
 import AdminProfile from '@/components/backend/AdminProfile';
+
+const { Title } = Typography;
+const { Content } = Layout;
 
 const ProfileAdminPage: React.FC = () => {
   return (
-    <main className="min-h-screen bg-gray-100">
-      <AdminProfile />
-    </main>
+    <Layout style={{ minHeight: '100vh', backgroundColor: '#f0f2f5' }}>
+      <Content style={{ padding: '24px' }}>
+        <Title level={3} style={{ marginBottom: '16px' }}>
+          Profile Management
+        </Title>
+        <Card style={{ padding: '16px' }}>
+          <AdminProfile />
+        </Card>
+      </Content>
+    </Layout>
   );
 };
 
