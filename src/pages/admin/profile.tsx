@@ -3,6 +3,8 @@ import { Layout, Typography, Card } from 'antd';
 
 import AdminProfile from '@/components/backend/AdminProfile';
 
+import withAuth from '@/hoc/withAuth';
+
 const { Title } = Typography;
 const { Content } = Layout;
 
@@ -21,4 +23,4 @@ const ProfileAdminPage: React.FC = () => {
   );
 };
 
-export default ProfileAdminPage;
+export default withAuth(ProfileAdminPage);
