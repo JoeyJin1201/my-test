@@ -1,55 +1,57 @@
 import React, { useState } from 'react';
+import { Form, Input, Button, message, Typography, Space } from 'antd';
+import axios from 'axios';
+
+const { Title } = Typography;
 
 const Login: React.FC = () => {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
-  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCredentials((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleLogin = async () => {
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials),
-    });
-    const data = await res.json();
-    if (res.ok) {
-      localStorage.setItem('token', data.token);
-      setMessage('Login successful!');
-    } else {
-      setMessage(data.message);
+  const onFinish = async (values: { username: string; password: string }) => {
+    try {
+      setLoading(true);
+      await axios.post('/api/auth/login', values);
+      message.success('Login successful!');
+      // 跳轉到後台管理頁面
+      window.location.href = '/admin';
+    } catch (error) {
+      message.error('Invalid username or password');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="p-8 bg-white rounded shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Admin Login</h2>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          className="block w-full px-4 py-2 border rounded-md mb-4"
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          className="block w-full px-4 py-2 border rounded-md mb-4"
-          onChange={handleChange}
-        />
-        <button
-          onClick={handleLogin}
-          className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-full"
+    <div style={{ maxWidth: '400px', margin: '50px auto' }}>
+      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+        <Title level={3} style={{ textAlign: 'center' }}>
+          Admin Login
+        </Title>
+        <Form
+          layout="vertical"
+          onFinish={onFinish}
         >
-          Login
-        </button>
-        {message && <p className="mt-4 text-center text-red-500">{message}</p>}
-      </div>
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+          >
+            <Input placeholder="Enter your username" />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password placeholder="Enter your password" />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" loading={loading} block>
+              Login
+            </Button>
+          </Form.Item>
+        </Form>
+      </Space>
     </div>
   );
 };

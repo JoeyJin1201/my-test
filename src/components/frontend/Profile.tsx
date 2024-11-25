@@ -1,6 +1,6 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Parallax } from 'react-scroll-parallax';
+import { Card, Typography, Spin } from 'antd';
+import axios from 'axios';
 
 interface Profile {
   name: string;
@@ -11,6 +11,7 @@ interface Profile {
 
 const Profile: React.FC = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -18,24 +19,39 @@ const Profile: React.FC = () => {
         const response = await axios.get<Profile>('/api/profile');
         setProfile(response.data);
       } catch (error) {
-        console.error('Failed to fetch profile:', error);
+        console.error('Error fetching profile:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchProfile();
   }, []);
 
-  if (!profile) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: '50px' }}>
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return null;
+  }
 
   return (
-    <section className="bg-gradient-to-r from-blue-500 to-purple-500 text-white py-16 px-8 text-center">
-      <Parallax translateY={[-20, 20]} scale={[0.9, 1.1]}>
-        <h1 className="text-4xl font-bold mb-4">{profile.name}</h1>
-        <p className="text-lg">{profile.title}</p>
-        <p className="mt-2 text-sm">{profile.email}</p>
-        <p className="mt-4">{profile.description}</p>
-      </Parallax>
-    </section>
+    <div style={{ padding: '20px' }}>
+      <Typography.Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>
+        About Me
+      </Typography.Title>
+      <Card>
+        <Typography.Title level={4}>{profile.name}</Typography.Title>
+        <Typography.Text>{profile.title}</Typography.Text>
+        <p>{profile.description}</p>
+        <Typography.Text>Email: {profile.email}</Typography.Text>
+      </Card>
+    </div>
   );
 };
 

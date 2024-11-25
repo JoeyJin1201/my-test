@@ -1,16 +1,18 @@
 import React from 'react';
+import { Layout, Typography } from 'antd';
 
-const Footer: React.FC = () => {
+const { Footer } = Layout;
+
+const AppFooter: React.FC = () => {
   return (
-    <footer className="bg-gray-800 text-white py-6">
-      <div className="container mx-auto text-center">
-        <p>&copy; {new Date().getFullYear()} My Portfolio. All rights reserved.</p>
-        <p>
-          Built with <span className="text-red-500">♥</span> using Next.js and TailwindCSS.
-        </p>
-      </div>
-    </footer>
+    <Footer style={{ textAlign: 'center' }}>
+      <Typography.Text>&copy; {new Date().getFullYear()} My Portfolio. All rights reserved.</Typography.Text>
+      <br />
+      <Typography.Text>
+        Built with <span style={{ color: 'red' }}>♥</span> using Next.js and Ant Design.
+      </Typography.Text>
+    </Footer>
   );
 };
 
-export default Footer;
+export default AppFooter;

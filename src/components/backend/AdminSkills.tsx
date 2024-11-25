@@ -1,123 +1,121 @@
 import React, { useEffect, useState } from 'react';
+import { Table, Form, Input, Button, Modal, message, Space } from 'antd';
 import axios from 'axios';
 
 interface Skill {
   id: number;
   name: string;
-  icon: string;
   category: string;
 }
 
 const AdminSkills: React.FC = () => {
   const [skills, setSkills] = useState<Skill[]>([]);
-  const [newSkill, setNewSkill] = useState<Partial<Skill>>({
-    name: '',
-    icon: '',
-    category: '',
-  });
+  const [editingSkill, setEditingSkill] = useState<Partial<Skill> | null>(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [form] = Form.useForm();
 
-  // 獲取技能列表
   useEffect(() => {
     const fetchSkills = async () => {
       try {
         const response = await axios.get<Skill[]>('/api/skills');
         setSkills(response.data);
       } catch (error) {
-        console.error('Failed to fetch skills:', error);
+        message.error('Failed to fetch skills');
       }
     };
 
     fetchSkills();
   }, []);
 
-  // 添加新技能
-  const addSkill = async () => {
-    if (!newSkill.name || !newSkill.icon || !newSkill.category) {
-      alert('Please fill out all fields');
-      return;
-    }
+  const handleAdd = () => {
+    setEditingSkill(null);
+    form.resetFields();
+    setIsModalVisible(true);
+  };
+
+  const handleEdit = (record: Skill) => {
+    setEditingSkill(record);
+    form.setFieldsValue(record);
+    setIsModalVisible(true);
+  };
+
+  const handleDelete = async (id: number) => {
     try {
-      const response = await axios.post('/api/skills', newSkill);
-      setSkills((prevSkills) => [...prevSkills, response.data]);
-      setNewSkill({ name: '', icon: '', category: '' });
+      await axios.delete(`/api/skills/${id}`);
+      setSkills((prev) => prev.filter((skill) => skill.id !== id));
+      message.success('Skill deleted successfully');
     } catch (error) {
-      console.error('Failed to add skill:', error);
+      message.error('Failed to delete skill');
     }
   };
 
-  // 刪除技能
-  const deleteSkill = async (id: number) => {
+  const handleSubmit = async (values: Skill) => {
     try {
-      await axios.delete('/api/skills', { data: { id } });
-      setSkills((prevSkills) => prevSkills.filter((skill) => skill.id !== id));
+      if (editingSkill) {
+        await axios.put(`/api/skills/${editingSkill.id}`, values);
+        setSkills((prev) =>
+          prev.map((skill) =>
+            skill.id === editingSkill.id ? { ...skill, ...values } : skill
+          )
+        );
+        message.success('Skill updated successfully');
+      } else {
+        const response = await axios.post('/api/skills', values);
+        setSkills((prev) => [...prev, response.data]);
+        message.success('Skill added successfully');
+      }
+      setIsModalVisible(false);
     } catch (error) {
-      console.error('Failed to delete skill:', error);
+      message.error('Failed to save skill');
     }
   };
+
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Category',
+      dataIndex: 'category',
+      key: 'category',
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_: any, record: Skill) => (
+        <Space>
+          <Button onClick={() => handleEdit(record)}>Edit</Button>
+          <Button danger onClick={() => handleDelete(record.id)}>
+            Delete
+          </Button>
+        </Space>
+      ),
+    },
+  ];
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">Manage Skills</h1>
-
-      {/* 新技能表單 */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Add New Skill</h2>
-        <div className="grid grid-cols-3 gap-4 mb-4">
-          <input
-            type="text"
-            placeholder="Skill Name"
-            value={newSkill.name}
-            onChange={(e) => setNewSkill({ ...newSkill, name: e.target.value })}
-            className="p-2 border rounded"
-          />
-          <input
-            type="text"
-            placeholder="Icon Name (e.g., FaReact)"
-            value={newSkill.icon}
-            onChange={(e) => setNewSkill({ ...newSkill, icon: e.target.value })}
-            className="p-2 border rounded"
-          />
-          <input
-            type="text"
-            placeholder="Category"
-            value={newSkill.category}
-            onChange={(e) =>
-              setNewSkill({ ...newSkill, category: e.target.value })
-            }
-            className="p-2 border rounded"
-          />
-        </div>
-        <button
-          onClick={addSkill}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Add Skill
-        </button>
-      </div>
-
-      {/* 技能列表 */}
-      <div>
-        <h2 className="text-2xl font-semibold mb-4">Current Skills</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {skills.map((skill) => (
-            <div
-              key={skill.id}
-              className="p-4 border rounded flex justify-between items-center"
-            >
-              <div>
-                <h3 className="text-lg font-bold">{skill.name}</h3>
-                <p className="text-sm text-gray-600">{skill.category}</p>
-              </div>
-              <button
-                onClick={() => deleteSkill(skill.id)}
-                className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                Delete
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
+    <div style={{ padding: '20px' }}>
+      <Button type="primary" onClick={handleAdd} style={{ marginBottom: '20px' }}>
+        Add Skill
+      </Button>
+      <Table columns={columns} dataSource={skills} rowKey="id" />
+      <Modal
+        title={editingSkill ? 'Edit Skill' : 'Add Skill'}
+        visible={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        onOk={() => form.submit()}
+      >
+        <Form form={form} layout="vertical" onFinish={handleSubmit}>
+          <Form.Item label="Name" name="name" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item label="Category" name="category" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

@@ -1,28 +1,22 @@
 import React, { ReactNode } from 'react';
-import { ParallaxProvider } from 'react-scroll-parallax';
-
-import Footer from './Footer';
-import Header from './Header';
+import { Layout } from 'antd';
+import AppHeader from './Header';
+import AppFooter from './Footer';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const AppLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <ParallaxProvider>
-      <div className="flex flex-col min-h-screen">
-        {/* Sticky Header */}
-        <Header />
-
-        {/* Main Content */}
-        <main className="flex-grow">{children}</main>
-
-        {/* Footer */}
-        <Footer />
-      </div>
-    </ParallaxProvider>
+    <Layout style={{ minHeight: '100vh' }}>
+      <AppHeader />
+      <Layout.Content style={{ padding: '0 50px', marginTop: '64px' }}>
+        {children}
+      </Layout.Content>
+      <AppFooter />
+    </Layout>
   );
 };
 
-export default Layout;
+export default AppLayout;

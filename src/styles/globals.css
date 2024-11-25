@@ -1,8 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+  --primary-color: #1890ff;
+  --link-color: #1890ff;
+  --success-color: #52c41a;
+  --error-color: #ff4d4f;
+  --font-size-base: 14px;
+  --heading-color: rgba(0, 0, 0, 0.85);
+  --text-color: rgba(0, 0, 0, 0.65);
+  --text-color-secondary: rgba(0, 0, 0, 0.45);
+  --disabled-color: rgba(0, 0, 0, 0.25);
+  --border-color-base: #d9d9d9;
+}
 
-/* 自定義全局樣式 */
-body {
-  font-family: 'Inter', sans-serif;
+[data-theme='dark'] {
+  --primary-color: #177ddc;
+  --link-color: #177ddc;
+  --success-color: #49aa19;
+  --error-color: #d32029;
+  --heading-color: rgba(255, 255, 255, 0.85);
+  --text-color: rgba(255, 255, 255, 0.65);
+  --text-color-secondary: rgba(255, 255, 255, 0.45);
+  --disabled-color: rgba(255, 255, 255, 0.25);
+  --border-color-base: #434343;
 }

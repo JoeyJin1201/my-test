@@ -1,35 +1,37 @@
 import React from 'react';
 import Link from 'next/link';
+import { Layout, Menu, Switch } from 'antd';
+import { useTheme } from '@/context/ThemeProvider';
 
-const Header: React.FC = () => {
+const { Header } = Layout;
+
+const AppHeader: React.FC = () => {
+  const { isDarkMode, toggleTheme } = useTheme();
+
   return (
-    <header className="sticky top-0 bg-gray-800 text-white z-50 shadow-md">
-      <div className="container mx-auto flex justify-between items-center px-4 py-3">
-        <Link href="/" className="text-xl font-bold hover:text-gray-400">
-          My Portfolio
-        </Link>
-        <nav>
-          <ul className="flex space-x-4">
-            <li>
-              <Link href="#profile" className="hover:text-gray-400">
-                About Me
-              </Link>
-            </li>
-            <li>
-              <Link href="#skills" className="hover:text-gray-400">
-                Skills
-              </Link>
-            </li>
-            <li>
-              <Link href="#projects" className="hover:text-gray-400">
-                Projects
-              </Link>
-            </li>
-          </ul>
-        </nav>
+    <Header>
+      <div style={{ float: 'left', color: '#fff', fontWeight: 'bold' }}>
+        <Link href="/">My Portfolio</Link>
       </div>
-    </header>
+      <Menu
+        theme={isDarkMode ? 'dark' : 'light'}
+        mode="horizontal"
+        style={{ float: 'right' }}
+        items={[
+          { key: '1', label: <Link href="#profile">Profile</Link> },
+          { key: '2', label: <Link href="#projects">Projects</Link> },
+          { key: '3', label: <Link href="#contact">Contact</Link> },
+        ]}
+      />
+      <Switch
+        checked={isDarkMode}
+        onChange={toggleTheme}
+        style={{ marginLeft: '20px' }}
+        checkedChildren="🌙"
+        unCheckedChildren="☀️"
+      />
+    </Header>
   );
 };
 
-export default Header;
+export default AppHeader;
