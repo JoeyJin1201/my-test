@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { List, Avatar, Typography, Spin } from 'antd';
+import { Card, Spin, Typography } from 'antd';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
+import * as style from './Skills.style';
 
 interface Skill {
   id: number;
@@ -36,23 +38,19 @@ const Skills: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
-      <Typography.Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>
+    <style.SectionContainer id="skills">
+      <Typography.Title
+        level={2}
+        style={{ textAlign: 'center', marginBottom: '20px' }}
+      >
         My Skills
       </Typography.Title>
-      <List
-        itemLayout="horizontal"
-        dataSource={skills}
-        renderItem={(skill) => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={<Avatar src={skill.icon} />}
-              title={skill.name}
-            />
-          </List.Item>
-        )}
-      />
-    </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+        {skills.map((skill) => (
+          <Card>{skill.name}</Card>
+        ))}
+      </div>
+    </style.SectionContainer>
   );
 };
 

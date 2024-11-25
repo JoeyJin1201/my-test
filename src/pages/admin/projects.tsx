@@ -3,6 +3,8 @@ import { Layout, Typography, Card } from 'antd';
 
 import AdminProjects from '@/components/backend/AdminProjects';
 
+import withAuth from '@/hoc/withAuth';
+
 const { Title } = Typography;
 const { Content } = Layout;
 
@@ -21,4 +23,4 @@ const ProjectsAdminPage: React.FC = () => {
   );
 };
 
-export default ProjectsAdminPage;
+export default withAuth(ProjectsAdminPage);

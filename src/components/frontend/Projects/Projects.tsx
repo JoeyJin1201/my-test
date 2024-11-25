@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Row, Col, Typography, Spin } from 'antd';
+import { Card, Col, Row, Spin, Typography } from 'antd';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
+import * as style from './Projects.style';
 
 interface Project {
   id: number;
@@ -37,8 +39,11 @@ const Projects: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
-      <Typography.Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>
+    <style.SectionContainer id="projects">
+      <Typography.Title
+        level={2}
+        style={{ textAlign: 'center', marginBottom: '20px' }}
+      >
         Our Projects
       </Typography.Title>
       <Row gutter={[16, 16]}>
@@ -48,12 +53,15 @@ const Projects: React.FC = () => {
               cover={<img alt={project.title} src={project.image} />}
               hoverable
             >
-              <Card.Meta title={project.title} description={project.description} />
+              <Card.Meta
+                title={project.title}
+                description={project.description}
+              />
             </Card>
           </Col>
         ))}
       </Row>
-    </div>
+    </style.SectionContainer>
   );
 };
 

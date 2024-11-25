@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Typography, Spin } from 'antd';
+import { Card, Spin, Typography } from 'antd';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
+import * as style from './Profile.style';
 
 interface Profile {
   name: string;
@@ -41,8 +43,11 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
-      <Typography.Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>
+    <style.SectionContainer id="profile">
+      <Typography.Title
+        level={2}
+        style={{ textAlign: 'center', marginBottom: '20px' }}
+      >
         About Me
       </Typography.Title>
       <Card>
@@ -51,7 +56,7 @@ const Profile: React.FC = () => {
         <p>{profile.description}</p>
         <Typography.Text>Email: {profile.email}</Typography.Text>
       </Card>
-    </div>
+    </style.SectionContainer>
   );
 };
 

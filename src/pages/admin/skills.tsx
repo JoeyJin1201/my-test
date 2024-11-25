@@ -3,6 +3,8 @@ import { Layout, Typography, Card } from 'antd';
 
 import AdminSkills from '@/components/backend/AdminSkills';
 
+import withAuth from '@/hoc/withAuth';
+
 const { Title } = Typography;
 const { Content } = Layout;
 
@@ -21,4 +23,4 @@ const SkillsAdminPage: React.FC = () => {
   );
 };
 
-export default SkillsAdminPage;
+export default withAuth(SkillsAdminPage);

@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Timeline, Typography, Spin } from 'antd';
+import { Spin, Timeline, Typography } from 'antd';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
+import * as style from './Experience.style';
 
 interface Experience {
   id: number;
@@ -39,20 +41,27 @@ const Experience: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
-      <Typography.Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>
+    <style.SectionContainer id="experience">
+      <Typography.Title
+        level={2}
+        style={{ textAlign: 'center', marginBottom: '20px' }}
+      >
         My Experience
       </Typography.Title>
       <Timeline>
         {experiences.map((exp) => (
           <Timeline.Item key={exp.id}>
-            <Typography.Title level={4}>{exp.title} @ {exp.company}</Typography.Title>
-            <Typography.Text>{exp.startDate} - {exp.endDate}</Typography.Text>
+            <Typography.Title level={4}>
+              {exp.title} @ {exp.company}
+            </Typography.Title>
+            <Typography.Text>
+              {exp.startDate} - {exp.endDate}
+            </Typography.Text>
             <p>{exp.description}</p>
           </Timeline.Item>
         ))}
       </Timeline>
-    </div>
+    </style.SectionContainer>
   );
 };
 
