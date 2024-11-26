@@ -58,38 +58,6 @@ const experiences: Experience[] = [
     endDate: '2014-07',
     description: 'Created branding materials and digital assets for clients across various industries.',
   },
-  {
-    id: 7,
-    title: 'Web Developer',
-    company: 'NextGen Web',
-    startDate: '2011-02',
-    endDate: '2012-04',
-    description: 'Built responsive websites using HTML5, CSS3, and jQuery.',
-  },
-  {
-    id: 8,
-    title: 'System Analyst',
-    company: 'Data Dynamics',
-    startDate: '2009-09',
-    endDate: '2010-12',
-    description: 'Analyzed business requirements and optimized system performance.',
-  },
-  {
-    id: 9,
-    title: 'Backend Developer',
-    company: 'Code Wizards',
-    startDate: '2008-01',
-    endDate: '2009-08',
-    description: 'Developed scalable database systems and server-side logic using Python.',
-  },
-  {
-    id: 10,
-    title: 'IT Support Specialist',
-    company: 'TechSupport Co.',
-    startDate: '2006-06',
-    endDate: '2007-12',
-    description: 'Provided technical support and resolved hardware/software issues for clients.',
-  },
 ];
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

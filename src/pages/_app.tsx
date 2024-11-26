@@ -1,5 +1,4 @@
 import { ConfigProvider } from 'antd';
-import 'antd/dist/reset.css';
 import type { AppProps } from 'next/app';
 import { useEffect, useRef, useState } from 'react';
 
@@ -10,9 +9,13 @@ import { AuthProvider } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/ThemeProvider';
 
 import '@/styles/globals.css';
+import '@/styles/reset.css';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [activeKey, setActiveKey] = useState('profile');
+  const [animationStarted, setAnimationStarted] = useState<
+    Record<string, boolean>
+  >({});
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   const offset = 36; // Header 高度
 
@@ -26,10 +29,18 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   const handleScroll = (entries: IntersectionObserverEntry[]) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const index = sectionRefs.current.indexOf(entry.target as HTMLElement);
-        if (index !== -1) {
-          setActiveKey(sectionArray[index]); // 更新 Tabs 的 activeKey
+      const index = sectionRefs.current.indexOf(entry.target as HTMLElement);
+      if (index !== -1) {
+        const sectionKey = sectionArray[index];
+
+        if (entry.isIntersecting) {
+          setActiveKey(sectionKey); // 更新 Tabs 的 activeKey
+
+          // 启动 Key In 动画
+          setAnimationStarted((prev) => ({
+            ...prev,
+            [sectionKey]: true,
+          }));
         }
       }
     });
@@ -39,7 +50,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     const observer = new IntersectionObserver(handleScroll, {
       root: document.querySelector('.content'), // 只监听 Content 区域滚动
       rootMargin: `-${offset}px 0px 0px 0px`,
-      threshold: 0.5,
+      threshold: 0.2,
     });
 
     sectionRefs.current.forEach((section) => {
@@ -104,6 +115,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               sectionRefs={sectionRefs}
               activeKey={activeKey}
               sectionArray={sectionArray}
+              animationStarted={animationStarted}
             />
           </div>
         </AuthProvider>

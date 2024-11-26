@@ -1,7 +1,8 @@
-import { Card, Spin, Typography } from 'antd';
+import { Card, Spin } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
+import KeyInText from '@/components/KeyInText/KeyInText';
 import * as style from './Skills.style';
 
 interface Skill {
@@ -10,7 +11,11 @@ interface Skill {
   icon: string;
 }
 
-const Skills: React.FC = () => {
+interface SkillsProps {
+  startAnimation: boolean; // 是否启动动画
+}
+
+const Skills: React.FC<SkillsProps> = ({ startAnimation }) => {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -39,15 +44,12 @@ const Skills: React.FC = () => {
 
   return (
     <style.Container>
-      <Typography.Title
-        level={2}
-        style={{ textAlign: 'center', marginBottom: '20px' }}
-      >
-        My Skills
-      </Typography.Title>
+      <h2>
+        <KeyInText text="My Skills" startAnimation={startAnimation} />
+      </h2>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
         {skills.map((skill) => (
-          <Card>{skill.name}</Card>
+          <Card key={skill.id}>{skill.name}</Card>
         ))}
       </div>
     </style.Container>

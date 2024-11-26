@@ -1,15 +1,22 @@
 import { Card, Typography } from 'antd';
 import React, { useState } from 'react';
 
+import KeyInText from '@/components/KeyInText/KeyInText';
 import * as style from './Contact.style';
 
-const Contact: React.FC = () => {
-  const [email, setEmail] = useState('example@example.com');
-  const [phone, setPhone] = useState('+123 456 7890');
+interface ContactProps {
+  startAnimation: boolean; // 动画触发状态
+}
+
+const Contact: React.FC<ContactProps> = ({ startAnimation }) => {
+  const [email] = useState('example@example.com');
+  const [phone] = useState('+123 456 7890');
 
   return (
     <style.Container>
-      <Typography.Title level={2}>Contact Me</Typography.Title>
+      <h2>
+        <KeyInText text="Keep In Touch" startAnimation={startAnimation} />
+      </h2>
       <Card>
         <Typography.Paragraph>
           <span>Email: </span>

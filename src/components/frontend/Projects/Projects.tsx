@@ -1,7 +1,8 @@
-import { Card, Typography, Spin } from 'antd';
+import { Card, Spin } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
+import KeyInText from '@/components/KeyInText/KeyInText';
 import * as style from './Projects.style';
 
 interface Project {
@@ -11,7 +12,11 @@ interface Project {
   image: string;
 }
 
-const Projects: React.FC = () => {
+interface ProjectsProps {
+  startAnimation: boolean; // 是否启动动画
+}
+
+const Projects: React.FC<ProjectsProps> = ({ startAnimation }) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,23 +41,29 @@ const Projects: React.FC = () => {
         <Spin size="large" />
       ) : (
         <>
-          <Typography.Title
-            level={2}
-            style={{ textAlign: 'center', marginBottom: '20px' }}
+          <h2>
+            <KeyInText text="My Projects" startAnimation={startAnimation} />
+          </h2>
+          <div
+            style={{
+              display: 'grid',
+              gap: '20px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            }}
           >
-            Our Projects
-          </Typography.Title>
-          {projects.map((project) => (
-            <Card
-              cover={<img alt={project.title} src={project.image} />}
-              hoverable
-            >
-              <Card.Meta
-                title={project.title}
-                description={project.description}
-              />
-            </Card>
-          ))}
+            {projects.map((project) => (
+              <Card
+                key={project.id}
+                cover={<img alt={project.title} src={project.image} />}
+                hoverable
+              >
+                <Card.Meta
+                  title={project.title}
+                  description={project.description}
+                />
+              </Card>
+            ))}
+          </div>
         </>
       )}
     </style.Container>

@@ -11,20 +11,22 @@ interface TabContentProps {
   sectionRefs: React.MutableRefObject<(HTMLElement | null)[]>;
   activeKey: string;
   sectionArray: string[];
+  animationStarted: Record<string, boolean>; // 动画状态
 }
 
-const sectionMap = (section: string) => {
+const sectionMap = (section: string, animationStarted: boolean) => {
+  const commonProps = { startAnimation: animationStarted };
   switch (section) {
     case 'profile':
-      return <Profile />;
+      return <Profile {...commonProps} />;
     case 'skills':
-      return <Skills />;
+      return <Skills {...commonProps} />;
     case 'experience':
-      return <Experience />;
+      return <Experience {...commonProps} />;
     case 'projects':
-      return <Projects />;
+      return <Projects {...commonProps} />;
     case 'contact':
-      return <Contact />;
+      return <Contact {...commonProps} />;
     default:
       return <></>;
   }
@@ -34,18 +36,20 @@ const TabContent: React.FC<TabContentProps> = ({
   sectionRefs,
   activeKey,
   sectionArray,
+  animationStarted,
 }) => {
   return (
     <style.SectionContainer $activeKey={activeKey}>
       {sectionArray.map((section, index) => (
         <style.StyledSection
+          key={section}
           id={section}
           $activeKey={activeKey}
           ref={(el) => {
             sectionRefs.current[index] = el;
           }}
         >
-          {sectionMap(section)}
+          {sectionMap(section, animationStarted[section] || false)}
         </style.StyledSection>
       ))}
     </style.SectionContainer>

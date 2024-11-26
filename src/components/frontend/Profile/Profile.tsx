@@ -2,6 +2,7 @@ import { Card, Spin, Typography } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
+import KeyInText from '@/components/KeyInText/KeyInText';
 import * as style from './Profile.style';
 
 interface Profile {
@@ -11,7 +12,11 @@ interface Profile {
   description: string;
 }
 
-const Profile: React.FC = () => {
+interface ProfileProps {
+  startAnimation: boolean; // 控制动画的启动
+}
+
+const Profile: React.FC<ProfileProps> = ({ startAnimation }) => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -36,12 +41,9 @@ const Profile: React.FC = () => {
         <Spin size="large" />
       ) : (
         <>
-          <Typography.Title
-            level={2}
-            style={{ textAlign: 'center', marginBottom: '20px' }}
-          >
-            About Me
-          </Typography.Title>
+          <h2>
+            <KeyInText text="About Me" startAnimation={startAnimation} />
+          </h2>
           <Card>
             <Typography.Title level={4}>{profile?.name}</Typography.Title>
             <Typography.Text>{profile?.title}</Typography.Text>

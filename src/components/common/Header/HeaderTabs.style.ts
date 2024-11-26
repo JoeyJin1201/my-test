@@ -36,6 +36,18 @@ export const CustomTabs = styled(Tabs)<CustomTabsProps>`
     &.ant-tabs .ant-tabs-tab {
       padding: 8px 8px;
       border-radius: 8px 8px 0px 0px;
+
+      /* 添加阴影 */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+      transition: box-shadow 300ms ease-in-out;
+
+      &:hover {
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.45);
+      }
+
+      &.ant-tabs-tab-active {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+      }
     }
 
     &.ant-tabs .ant-tabs-tab:nth-child(1) {
