@@ -1,11 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-export interface Skill {
-  id: number;
-  name: string;
-  icon: string;
-  category: string;
-}
+import { Skill } from './index';
 
 let skills: Skill[] = [
   // Frontend Skills
@@ -40,21 +34,22 @@ let skills: Skill[] = [
 ];
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    res.status(200).json(skills);
-  } else if (req.method === 'POST') {
-    const { name, icon, category } = req.body;
-    const newSkill: Skill = {
-      id: skills.length ? Math.max(...skills.map((s) => s.id)) + 1 : 1,
-      name,
-      icon,
-      category,
-    };
-    skills.push(newSkill);
-    res.status(201).json(newSkill);
-  } else if (req.method === 'DELETE') {
-    const { id } = req.body;
-    skills = skills.filter((skill) => skill.id !== id);
+  const { id } = req.query;
+  const parsedId = parseInt(id as string, 10);
+
+  if (!parsedId) {
+    return res.status(400).json({ message: 'Invalid id' });
+  }
+
+  if (req.method === 'DELETE') {
+    // 删除技能
+    const skillIndex = skills.findIndex((skill) => skill.id === parsedId);
+
+    if (skillIndex === -1) {
+      return res.status(404).json({ message: 'Skill not found' });
+    }
+
+    skills.splice(skillIndex, 1);
     res.status(200).json({ message: 'Skill deleted' });
   } else {
     res.status(405).json({ message: 'Method not allowed' });

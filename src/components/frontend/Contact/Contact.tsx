@@ -1,7 +1,7 @@
 import { Card, Typography } from 'antd';
 import React, { useState } from 'react';
 
-import KeyInText from '@/components/KeyInText/KeyInText';
+import KeyInText from '@/components/KeyInTextWithCursor/KeyInTextWithCursor';
 import * as style from './Contact.style';
 
 interface ContactProps {

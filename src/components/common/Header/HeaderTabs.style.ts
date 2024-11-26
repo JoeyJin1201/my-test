@@ -34,19 +34,34 @@ export const CustomTabs = styled(Tabs)<CustomTabsProps>`
     padding: 4px 4px 0px 4px;
 
     &.ant-tabs .ant-tabs-tab {
-      padding: 8px 8px;
+      padding: 8px;
       border-radius: 8px 8px 0px 0px;
 
-      /* 添加阴影 */
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-      transition: box-shadow 300ms ease-in-out;
+      transition: box-shadow ease-in-out 100ms;
+
+      @media screen and (min-width: 768px) {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+      }
 
       &:hover {
         box-shadow: 0 3px 5px rgba(0, 0, 0, 0.45);
+
+        @media screen and (min-width: 768px) {
+          box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
+        }
       }
 
       &.ant-tabs-tab-active {
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+
+        @media screen and (min-width: 768px) {
+          box-shadow: 0 8px 10px rgba(0, 0, 0, 0.5);
+        }
+      }
+
+      @media screen and (min-width: 768px) {
+        padding: 10px 16px;
       }
     }
 
@@ -97,7 +112,14 @@ export const CustomTabs = styled(Tabs)<CustomTabsProps>`
 
     &.ant-tabs > .ant-tabs-nav .ant-tabs-nav-list,
     &.ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-list {
-      column-gap: 2px;
+      column-gap: 4px;
+    }
+
+    &.ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap,
+    &.ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-wrap {
+      @media screen and (min-width: 390px) {
+        justify-content: center;
+      }
     }
   }
 `;

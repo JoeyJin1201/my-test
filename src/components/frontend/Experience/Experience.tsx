@@ -2,7 +2,7 @@ import { Spin, Timeline, Typography } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-import KeyInText from '@/components/KeyInText/KeyInText';
+import KeyInText from '@/components/KeyInTextWithCursor/KeyInTextWithCursor';
 import * as style from './Experience.style';
 
 interface Experience {

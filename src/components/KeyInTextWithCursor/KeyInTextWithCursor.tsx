@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-import * as style from './KeyInTextWithCursor.style'; // 引入样式文件
+import * as style from './KeyInTextWithCursor.style';
 
 interface KeyInTextWithCursorProps {
-  text: string; // 要显示的文字
-  speed?: number; // 每个字符的动画速度（毫秒）
-  startAnimation: boolean; // 动画是否启动
-  className?: string; // 自定义类名
+  text: string;
+  speed?: number;
+  startAnimation: boolean;
+  className?: string;
 }
 
 const KeyInTextWithCursor: React.FC<KeyInTextWithCursorProps> = ({

@@ -25,7 +25,7 @@ const returnColor = (activeKey: string) => {
 
 export const StyledSection = styled.section<StyledSectionProps>`
   background-color: ${({ $activeKey }) => returnColor($activeKey)};
-  transition: all ease-in-out 300ms;
+  transition: background-color ease-in-out 300ms;
 `;
 
 export const SectionContainer = styled.div<SectionContainerProps>`
@@ -40,6 +40,6 @@ export const SectionContainer = styled.div<SectionContainerProps>`
     right: 0;
     border: 16px solid ${({ $activeKey }) => returnColor($activeKey)};
     z-index: 999;
-    transition: all ease-in-out 300ms;
+    transition: border ease-in-out 300ms;
   }
 `;
