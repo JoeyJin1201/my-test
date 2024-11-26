@@ -33,7 +33,7 @@ export const CustomTabs = styled(Tabs)<CustomTabsProps>`
     background: #ffffff;
     padding: 4px 4px 0px 4px;
     border-bottom: 16px solid ${({ activeKey }) => returnColor(activeKey)};
-    transition: border-color ease-in-out 300ms;
+    transition: border ease-in-out 300ms;
 
     &.ant-tabs .ant-tabs-tab {
       padding: 8px;
