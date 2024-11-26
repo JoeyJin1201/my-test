@@ -30,33 +30,27 @@ const Profile: React.FC = () => {
     fetchProfile();
   }, []);
 
-  if (loading) {
-    return (
-      <div style={{ textAlign: 'center', padding: '50px' }}>
-        <Spin size="large" />
-      </div>
-    );
-  }
-
-  if (!profile) {
-    return null;
-  }
-
   return (
-    <style.SectionContainer id="profile">
-      <Typography.Title
-        level={2}
-        style={{ textAlign: 'center', marginBottom: '20px' }}
-      >
-        About Me
-      </Typography.Title>
-      <Card>
-        <Typography.Title level={4}>{profile.name}</Typography.Title>
-        <Typography.Text>{profile.title}</Typography.Text>
-        <p>{profile.description}</p>
-        <Typography.Text>Email: {profile.email}</Typography.Text>
-      </Card>
-    </style.SectionContainer>
+    <style.Container>
+      {loading ? (
+        <Spin size="large" />
+      ) : (
+        <>
+          <Typography.Title
+            level={2}
+            style={{ textAlign: 'center', marginBottom: '20px' }}
+          >
+            About Me
+          </Typography.Title>
+          <Card>
+            <Typography.Title level={4}>{profile?.name}</Typography.Title>
+            <Typography.Text>{profile?.title}</Typography.Text>
+            <p>{profile?.description}</p>
+            <Typography.Text>Email: {profile?.email}</Typography.Text>
+          </Card>
+        </>
+      )}
+    </style.Container>
   );
 };
 

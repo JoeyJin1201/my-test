@@ -1,55 +1,115 @@
-import 'antd/dist/reset.css';
-
 import { ConfigProvider } from 'antd';
+import 'antd/dist/reset.css';
 import type { AppProps } from 'next/app';
+import { useEffect, useRef, useState } from 'react';
 
-import Layout from '@/components/common/Layout/Layout';
+import HeaderTabs from '@/components/common/Header/HeaderTabs';
+import TabContent from '@/components/common/TabContent/TabContent';
 
 import { AuthProvider } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/ThemeProvider';
 
-import '@/styles/globals.css'; // 引入全局樣式
-// import '@/styles/reset.css'; // css reset
-import { useEffect, useState } from 'react';
+import '@/styles/globals.css';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const [currentBlock, setCurrentBlock] = useState('#profile');
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  const [activeKey, setActiveKey] = useState('profile');
+  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+  const offset = 36; // Header 高度
+
+  const sectionArray = [
+    'profile',
+    'skills',
+    'experience',
+    'projects',
+    'contact',
+  ];
+
+  const handleScroll = (entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const index = sectionRefs.current.indexOf(entry.target as HTMLElement);
+        if (index !== -1) {
+          setActiveKey(sectionArray[index]); // 更新 Tabs 的 activeKey
+        }
+      }
+    });
+  };
 
   useEffect(() => {
-    setCurrentBlock('#profile');
-  }, []);
+    const observer = new IntersectionObserver(handleScroll, {
+      root: document.querySelector('.content'), // 只监听 Content 区域滚动
+      rootMargin: `-${offset}px 0px 0px 0px`,
+      threshold: 0.5,
+    });
 
-  useEffect(() => {
-    console.log(currentBlock);
-  }, [currentBlock]);
+    sectionRefs.current.forEach((section) => {
+      if (section) {
+        observer.observe(section);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, [offset]);
 
   return (
     <ConfigProvider
       theme={{
         hashed: false,
-        token: {
-          lineHeight: 1,
-        },
+        token: { fontSize: 16, lineHeight: 1 },
         components: {
-          Anchor: {
-            linkPaddingBlock: 0,
-            linkPaddingInlineStart: 0,
-          },
-          Layout: {
-            // headerBg: 'white',
+          Tabs: {
+            inkBarColor: 'transparent',
+            itemActiveColor: '#121212',
+            itemColor: '#121212',
+            itemHoverColor: '#121212',
+            itemSelectedColor: '#121212',
           },
         },
       }}
     >
       <ThemeProvider>
         <AuthProvider>
-          <Layout currentBlock={currentBlock} setCurrentBlock={setCurrentBlock}>
-            <Component {...pageProps} />
-          </Layout>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+              paddingTop: '36px',
+            }}
+          >
+            <HeaderTabs
+              activeKey={activeKey}
+              onTabChange={(key) => {
+                setActiveKey(key);
+                const index = sectionArray.indexOf(key);
+                if (index !== -1) {
+                  const targetElement = sectionRefs.current[index];
+                  if (targetElement) {
+                    const headerHeight = offset;
+                    const targetPosition =
+                      targetElement.getBoundingClientRect().top +
+                      window.scrollY -
+                      headerHeight;
+
+                    window.scrollTo({
+                      top: targetPosition,
+                      behavior: 'smooth',
+                    });
+                  }
+                }
+              }}
+            />
+
+            <TabContent
+              sectionRefs={sectionRefs}
+              activeKey={activeKey}
+              sectionArray={sectionArray}
+            />
+          </div>
         </AuthProvider>
       </ThemeProvider>
     </ConfigProvider>
   );
-}
+};
 
 export default MyApp;

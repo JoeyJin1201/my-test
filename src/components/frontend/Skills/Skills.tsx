@@ -31,14 +31,14 @@ const Skills: React.FC = () => {
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: '50px' }}>
+      <style.Container>
         <Spin size="large" />
-      </div>
+      </style.Container>
     );
   }
 
   return (
-    <style.SectionContainer id="skills">
+    <style.Container>
       <Typography.Title
         level={2}
         style={{ textAlign: 'center', marginBottom: '20px' }}
@@ -50,7 +50,7 @@ const Skills: React.FC = () => {
           <Card>{skill.name}</Card>
         ))}
       </div>
-    </style.SectionContainer>
+    </style.Container>
   );
 };
 

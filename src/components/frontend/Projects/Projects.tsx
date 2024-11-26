@@ -1,4 +1,4 @@
-import { Card, Col, Row, Spin, Typography } from 'antd';
+import { Card, Typography, Spin } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
@@ -30,25 +30,19 @@ const Projects: React.FC = () => {
     fetchProjects();
   }, []);
 
-  if (loading) {
-    return (
-      <div style={{ textAlign: 'center', padding: '50px' }}>
-        <Spin size="large" />
-      </div>
-    );
-  }
-
   return (
-    <style.SectionContainer id="projects">
-      <Typography.Title
-        level={2}
-        style={{ textAlign: 'center', marginBottom: '20px' }}
-      >
-        Our Projects
-      </Typography.Title>
-      <Row gutter={[16, 16]}>
-        {projects.map((project) => (
-          <Col xs={24} sm={12} md={8} key={project.id}>
+    <style.Container>
+      {loading ? (
+        <Spin size="large" />
+      ) : (
+        <>
+          <Typography.Title
+            level={2}
+            style={{ textAlign: 'center', marginBottom: '20px' }}
+          >
+            Our Projects
+          </Typography.Title>
+          {projects.map((project) => (
             <Card
               cover={<img alt={project.title} src={project.image} />}
               hoverable
@@ -58,10 +52,10 @@ const Projects: React.FC = () => {
                 description={project.description}
               />
             </Card>
-          </Col>
-        ))}
-      </Row>
-    </style.SectionContainer>
+          ))}
+        </>
+      )}
+    </style.Container>
   );
 };
 

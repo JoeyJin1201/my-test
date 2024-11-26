@@ -1,4 +1,4 @@
-import { Spin, Timeline, Typography } from 'antd';
+import { Timeline, Typography } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
@@ -32,36 +32,35 @@ const Experience: React.FC = () => {
     fetchExperiences();
   }, []);
 
-  if (loading) {
-    return (
-      <div style={{ textAlign: 'center', padding: '50px' }}>
-        <Spin size="large" />
+  const timelineItems = experiences.map((exp) => ({
+    key: exp.id,
+    label: (
+      <div style={{ marginBottom: '16px' }}>
+        <Typography.Title level={4} style={{ marginBottom: '4px' }}>
+          {exp.title} @ {exp.company}
+        </Typography.Title>
+        <Typography.Text>
+          {exp.startDate} - {exp.endDate}
+        </Typography.Text>
       </div>
-    );
-  }
+    ),
+    children: (
+      <div style={{ paddingLeft: '16px' }}>
+        <Typography.Text>{exp.description}</Typography.Text>
+      </div>
+    ),
+  }));
 
   return (
-    <style.SectionContainer id="experience">
+    <style.Container>
       <Typography.Title
         level={2}
         style={{ textAlign: 'center', marginBottom: '20px' }}
       >
         My Experience
       </Typography.Title>
-      <Timeline>
-        {experiences.map((exp) => (
-          <Timeline.Item key={exp.id}>
-            <Typography.Title level={4}>
-              {exp.title} @ {exp.company}
-            </Typography.Title>
-            <Typography.Text>
-              {exp.startDate} - {exp.endDate}
-            </Typography.Text>
-            <p>{exp.description}</p>
-          </Timeline.Item>
-        ))}
-      </Timeline>
-    </style.SectionContainer>
+      <Timeline items={timelineItems} />
+    </style.Container>
   );
 };
 

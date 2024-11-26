@@ -1,4 +1,4 @@
-import Contact from '@/components/frontend/Contact';
+import Contact from '@/components/frontend/Contact/Contact';
 import Experience from '@/components/frontend/Experience/Experience';
 import Profile from '@/components/frontend/Profile/Profile';
 import Projects from '@/components/frontend/Projects/Projects';

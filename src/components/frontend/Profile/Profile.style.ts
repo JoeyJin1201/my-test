@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
-export const SectionContainer = styled.section`
-  height: 100%;
-  min-height: calc(100vh - 64px);
-  padding: 24px;
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: calc(100vh - 36px);
+  padding: 16px;
 `;
