@@ -7,7 +7,7 @@ interface CustomTabsProps {
   items: { key: string; label: string }[];
 }
 
-const returnBG = (activeKey: string) => {
+const returnColor = (activeKey: string) => {
   switch (activeKey) {
     case 'profile':
       return '#f4f6f9';
@@ -26,12 +26,14 @@ const returnBG = (activeKey: string) => {
 
 export const CustomTabs = styled(Tabs)<CustomTabsProps>`
   && {
-    position: fixed;
+    position: sticky;
     top: 0;
     width: 100%;
     z-index: 1000;
     background: #ffffff;
     padding: 4px 4px 0px 4px;
+    border-bottom: 16px solid ${({ activeKey }) => returnColor(activeKey)};
+    transition: border-color ease-in-out 300ms;
 
     &.ant-tabs .ant-tabs-tab {
       padding: 8px;
@@ -66,23 +68,23 @@ export const CustomTabs = styled(Tabs)<CustomTabsProps>`
     }
 
     &.ant-tabs .ant-tabs-tab:nth-child(1) {
-      background-color: ${({ items }) => returnBG(items[0].key)};
+      background-color: ${({ items }) => returnColor(items[0].key)};
     }
 
     &.ant-tabs .ant-tabs-tab:nth-child(2) {
-      background-color: ${({ items }) => returnBG(items[1].key)};
+      background-color: ${({ items }) => returnColor(items[1].key)};
     }
 
     &.ant-tabs .ant-tabs-tab:nth-child(3) {
-      background-color: ${({ items }) => returnBG(items[2].key)};
+      background-color: ${({ items }) => returnColor(items[2].key)};
     }
 
     &.ant-tabs .ant-tabs-tab:nth-child(4) {
-      background-color: ${({ items }) => returnBG(items[3].key)};
+      background-color: ${({ items }) => returnColor(items[3].key)};
     }
 
     &.ant-tabs .ant-tabs-tab:nth-child(5) {
-      background-color: ${({ items }) => returnBG(items[4].key)};
+      background-color: ${({ items }) => returnColor(items[4].key)};
     }
 
     &.ant-tabs-top > .ant-tabs-nav,

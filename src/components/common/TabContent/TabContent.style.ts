@@ -31,15 +31,15 @@ export const StyledSection = styled.section<StyledSectionProps>`
 export const SectionContainer = styled.div<SectionContainerProps>`
   flex: 1;
 
-  &::before {
+  /* &::before {
     content: '';
     position: fixed;
     top: 36px;
     bottom: 0;
     left: 0;
     right: 0;
-    border: 16px solid ${({ $activeKey }) => returnColor($activeKey)};
+    border-top: 16px solid ${({ $activeKey }) => returnColor($activeKey)};
     z-index: 999;
     transition: border ease-in-out 300ms;
-  }
+  } */
 `;
