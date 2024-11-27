@@ -12,6 +12,7 @@ interface KeyInTextWithCursorProps {
 
 const sourceCodePro = Source_Code_Pro({
   display: 'swap',
+  subsets: ['latin'],
 });
 
 const KeyInTextWithCursor: React.FC<KeyInTextWithCursorProps> = ({
