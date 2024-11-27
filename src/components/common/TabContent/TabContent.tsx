@@ -39,7 +39,7 @@ const TabContent: React.FC<TabContentProps> = ({
   animationStarted,
 }) => {
   return (
-    <style.SectionContainer $activeKey={activeKey}>
+    <style.SectionsContainer $activeKey={activeKey}>
       {sectionArray.map((section, index) => (
         <style.StyledSection
           key={section}
@@ -48,11 +48,15 @@ const TabContent: React.FC<TabContentProps> = ({
           ref={(el) => {
             sectionRefs.current[index] = el;
           }}
+          style={section === 'contact' ? { maxHeight: 'calc(100vh - 36px)' } : {}}
         >
-          {sectionMap(section, animationStarted[section] || false)}
+          <style.SectionContentWrap
+          >
+            {sectionMap(section, animationStarted[section] || false)}
+          </style.SectionContentWrap>
         </style.StyledSection>
       ))}
-    </style.SectionContainer>
+    </style.SectionsContainer>
   );
 };
 

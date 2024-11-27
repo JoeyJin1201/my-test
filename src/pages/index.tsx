@@ -1,6 +1,8 @@
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+
 import HeaderTabs from '@/components/common/Header/HeaderTabs';
 import TabContent from '@/components/common/TabContent/TabContent';
-import { useEffect, useRef, useState } from 'react';
 
 const IndexPage = () => {
   const [activeKey, setActiveKey] = useState('profile');
@@ -8,6 +10,9 @@ const IndexPage = () => {
     Record<string, boolean>
   >({});
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
+  const router = useRouter();
+
   const offset = 36;
 
   const sectionArray = [
@@ -52,13 +57,19 @@ const IndexPage = () => {
   }, [offset]);
 
   return (
-    <div style={{ paddingTop: '36px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <HeaderTabs
         activeKey={activeKey}
+        onTabClick={(key) => {
+          console.log(key)
+          if (key === 'admin') {
+            router.push('/admin');
+          }
+        }}
         onTabChange={(key) => {
-          setActiveKey(key);
           const index = sectionArray.indexOf(key);
           if (index !== -1) {
+            setActiveKey(key);
             const targetElement = sectionRefs.current[index];
             if (targetElement) {
               const headerHeight = offset;

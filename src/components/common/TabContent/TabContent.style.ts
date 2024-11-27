@@ -23,23 +23,31 @@ const returnColor = (activeKey: string) => {
   }
 };
 
+export const SectionsContainer = styled.div<SectionContainerProps>`
+  flex: 1;
+`;
+
 export const StyledSection = styled.section<StyledSectionProps>`
+  min-height: calc(100vh - 36px);
   background-color: ${({ $activeKey }) => returnColor($activeKey)};
   transition: background-color ease-in-out 300ms;
 `;
 
-export const SectionContainer = styled.div<SectionContainerProps>`
-  flex: 1;
+export const SectionContentWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 16px;
+  padding: 16px;
 
-  /* &::before {
-    content: '';
-    position: fixed;
-    top: 36px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-top: 16px solid ${({ $activeKey }) => returnColor($activeKey)};
-    z-index: 999;
-    transition: border ease-in-out 300ms;
-  } */
+  @media screen and (max-width: 768px) {
+    row-gap: 8px;
+  }
+
+  h2 {
+    height: 32px;
+    font-size: 32px;
+    font-weight: bold;
+  }
 `;

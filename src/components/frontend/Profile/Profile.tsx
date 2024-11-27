@@ -3,7 +3,6 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 import KeyInText from '@/components/KeyInTextWithCursor/KeyInTextWithCursor';
-import * as style from './Profile.style';
 
 interface Profile {
   name: string;
@@ -36,7 +35,7 @@ const Profile: React.FC<ProfileProps> = ({ startAnimation }) => {
   }, []);
 
   return (
-    <style.Container>
+    <>
       {loading ? (
         <Spin size="large" />
       ) : (
@@ -52,7 +51,7 @@ const Profile: React.FC<ProfileProps> = ({ startAnimation }) => {
           </Card>
         </>
       )}
-    </style.Container>
+    </>
   );
 };
 

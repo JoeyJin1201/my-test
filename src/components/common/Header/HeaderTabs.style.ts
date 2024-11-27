@@ -19,6 +19,8 @@ const returnColor = (activeKey: string) => {
       return '#aebbc3';
     case 'contact':
       return '#97a7b1';
+    case 'admin':
+      return 'salmon';
     default:
       return '#f4f6f9';
   }
@@ -32,8 +34,6 @@ export const CustomTabs = styled(Tabs)<CustomTabsProps>`
     z-index: 1000;
     background: #ffffff;
     padding: 4px 4px 0px 4px;
-    /* border-bottom: 16px solid ${({ activeKey }) => returnColor(activeKey)}; */
-    /* transition: border ease-in-out 300ms; */
 
     &.ant-tabs .ant-tabs-tab {
       padding: 8px;
@@ -85,6 +85,10 @@ export const CustomTabs = styled(Tabs)<CustomTabsProps>`
 
     &.ant-tabs .ant-tabs-tab:nth-child(5) {
       background-color: ${({ items }) => returnColor(items[4].key)};
+    }
+
+    &.ant-tabs .ant-tabs-tab:nth-child(6) {
+      background-color: ${({ items }) => returnColor(items[5]?.key)};
     }
 
     &.ant-tabs-top > .ant-tabs-nav,

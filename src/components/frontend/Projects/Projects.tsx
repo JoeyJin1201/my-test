@@ -3,7 +3,6 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 import KeyInText from '@/components/KeyInTextWithCursor/KeyInTextWithCursor';
-import * as style from './Projects.style';
 
 interface Project {
   id: number;
@@ -36,7 +35,7 @@ const Projects: React.FC<ProjectsProps> = ({ startAnimation }) => {
   }, []);
 
   return (
-    <style.Container>
+    <>
       {loading ? (
         <Spin size="large" />
       ) : (
@@ -66,7 +65,7 @@ const Projects: React.FC<ProjectsProps> = ({ startAnimation }) => {
           </div>
         </>
       )}
-    </style.Container>
+    </>
   );
 };
 

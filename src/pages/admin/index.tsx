@@ -1,7 +1,7 @@
 import { Tabs } from 'antd';
 import dynamic from 'next/dynamic';
 
-import withAuth from '@/hoc/withAuth';
+import withAuth from '@/components/hoc/withAuth';
 
 const Profile = dynamic(() => import('@/components/backend/AdminProfile'), { ssr: false });
 const Projects = dynamic(() => import('@/components/backend/AdminProjects'), { ssr: false });
