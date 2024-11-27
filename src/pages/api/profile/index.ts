@@ -21,8 +21,13 @@ let profile: Profile = {
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     res.status(200).json(profile);
-  } else if (req.method === 'POST') {
+  } else if (req.method === 'PUT') {
     const { name, title, description } = req.body;
+
+    if (!name || !title || !Array.isArray(description)) {
+      return res.status(400).json({ message: 'Invalid input data' });
+    }
+
     profile = { name, title, description };
     res.status(200).json({ message: 'Profile updated successfully!', profile });
   } else {

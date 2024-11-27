@@ -45,9 +45,10 @@ const Projects: React.FC<ProjectsProps> = ({ startAnimation }) => {
           </h2>
           <div
             style={{
+              width: '100%',
               display: 'grid',
               gap: '20px',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(256px, 1fr))',
             }}
           >
             {projects.map((project) => (

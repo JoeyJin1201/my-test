@@ -18,8 +18,10 @@ export const SkillCardWrapper = styled.div`
   display: inline-block;
   transition: transform 0.2s ease-in-out;
 
-  &:hover {
-    transform: scale(1.05);
+  @media (min-width: 960px) {
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 `;
 

@@ -16,7 +16,7 @@ const HeaderTabs: React.FC<HeaderTabsProps> = ({ activeKey, onTabClick, onTabCha
   const items = [
     { key: 'profile', label: 'Profile' },
     { key: 'skills', label: 'Skills' },
-    { key: 'experience', label: 'Experience' },
+    { key: 'experience', label: 'Exp.' },
     { key: 'projects', label: 'Projects' },
     { key: 'contact', label: 'Contact' },
     ...(width && width >= 960 ? [{ key: 'admin', label: 'Admin' }] : []),

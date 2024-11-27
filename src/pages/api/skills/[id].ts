@@ -1,56 +1,45 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Skill } from './index';
 
-let skills: Skill[] = [
-  // Frontend Skills
-  { id: 1, name: 'React', icon: 'FaReact', category: 'Frontend' },
-  { id: 2, name: 'Next.js', icon: 'RiNextjsFill', category: 'Frontend' },
-  { id: 3, name: 'TypeScript', icon: 'FaJs', category: 'Frontend' },
-  { id: 4, name: 'CSS', icon: 'FaCss3Alt', category: 'Frontend' },
-  { id: 5, name: 'Vue.js', icon: 'FaVuejs', category: 'Frontend' },
-  { id: 6, name: 'Angular', icon: 'FaAngular', category: 'Frontend' },
-  { id: 7, name: 'HTML', icon: 'FaHtml5', category: 'Frontend' },
-  { id: 8, name: 'JavaScript', icon: 'FaJsSquare', category: 'Frontend' },
-
-  // Backend Skills
-  { id: 9, name: 'Node.js', icon: 'FaNode', category: 'Backend' },
-  { id: 10, name: 'Express.js', icon: 'FaServer', category: 'Backend' },
-  { id: 11, name: 'Java', icon: 'FaJava', category: 'Backend' },
-  { id: 12, name: 'Spring Boot', icon: 'SiSpring', category: 'Backend' },
-  { id: 13, name: 'Python', icon: 'FaPython', category: 'Backend' },
-  { id: 14, name: 'Django', icon: 'SiDjango', category: 'Backend' },
-  { id: 15, name: 'Ruby on Rails', icon: 'FaGem', category: 'Backend' },
-  { id: 16, name: 'PHP', icon: 'FaPhp', category: 'Backend' },
-
-  // DevOps Skills
-  { id: 17, name: 'Docker', icon: 'FaDocker', category: 'DevOps' },
-  { id: 18, name: 'Kubernetes', icon: 'SiKubernetes', category: 'DevOps' },
-  { id: 19, name: 'AWS', icon: 'FaAws', category: 'DevOps' },
-  { id: 20, name: 'Azure', icon: 'FaMicrosoft', category: 'DevOps' },
-  { id: 21, name: 'Jenkins', icon: 'FaJenkins', category: 'DevOps' },
-  { id: 22, name: 'GitLab CI/CD', icon: 'FaGitlab', category: 'DevOps' },
-  { id: 23, name: 'Terraform', icon: 'SiTerraform', category: 'DevOps' },
-  { id: 24, name: 'Ansible', icon: 'FaAnsible', category: 'DevOps' },
-];
+import { skills } from './index';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
-  const parsedId = parseInt(id as string, 10);
 
-  if (!parsedId) {
-    return res.status(400).json({ message: 'Invalid id' });
+  if (!id || Array.isArray(id)) {
+    return res.status(400).json({ message: 'Invalid skill id' });
+  }
+
+  const parsedId = parseInt(id, 10);
+  const skillIndex = skills.findIndex((skill) => skill.id === parsedId);
+
+  if (skillIndex === -1) {
+    return res.status(404).json({ message: 'Skill not found' });
   }
 
   if (req.method === 'DELETE') {
-    // 删除技能
-    const skillIndex = skills.findIndex((skill) => skill.id === parsedId);
+    skills.splice(skillIndex, 1);
+    res.status(200).json({ message: 'Skill deleted successfully' });
+  } else if (req.method === 'PUT') {
+    const { name, category, proficiency } = req.body;
 
-    if (skillIndex === -1) {
-      return res.status(404).json({ message: 'Skill not found' });
+    if (!name || !category || proficiency === undefined) {
+      return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    skills.splice(skillIndex, 1);
-    res.status(200).json({ message: 'Skill deleted' });
+    if (proficiency < 0 || proficiency > 100) {
+      return res
+        .status(400)
+        .json({ message: 'Proficiency must be between 0 and 100' });
+    }
+
+    skills[skillIndex] = {
+      id: parsedId,
+      name,
+      category,
+      proficiency,
+    };
+
+    res.status(200).json(skills[skillIndex]);
   } else {
     res.status(405).json({ message: 'Method not allowed' });
   }

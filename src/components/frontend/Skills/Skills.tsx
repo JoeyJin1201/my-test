@@ -3,15 +3,12 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 import KeyInText from '@/components/KeyInTextWithCursor/KeyInTextWithCursor';
-
 import { colors } from '@/utils/colors';
-
 import * as style from './Skills.style';
 
 interface Skill {
   id: number;
   name: string;
-  icon: string;
   category: string;
   proficiency: number;
 }
@@ -23,6 +20,9 @@ interface SkillsProps {
 const Skills: React.FC<SkillsProps> = ({ startAnimation }) => {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(true);
+  const [animatedProficiencies, setAnimatedProficiencies] = useState<
+    Record<number, number>
+  >({}); // 用於記錄每個進度條的動畫進度
 
   useEffect(() => {
     const fetchSkills = async () => {
@@ -30,7 +30,7 @@ const Skills: React.FC<SkillsProps> = ({ startAnimation }) => {
         const response = await axios.get<Skill[]>('/api/skills');
         const skillsWithProficiency = response.data.map((skill) => ({
           ...skill,
-          proficiency: Math.floor(Math.random() * 50) + 50,
+          proficiency: Math.min(Math.max(skill.proficiency, 0), 100), // 確保百分比在 0-100 範圍內
         }));
         setSkills(skillsWithProficiency);
       } catch (error) {
@@ -42,6 +42,31 @@ const Skills: React.FC<SkillsProps> = ({ startAnimation }) => {
 
     fetchSkills();
   }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      // 啟動進度條的填充動畫
+      const interval = setInterval(() => {
+        setAnimatedProficiencies((prev) => {
+          const updated = { ...prev };
+          let allFilled = true;
+          skills.forEach((skill) => {
+            if (!updated[skill.id] || updated[skill.id] < skill.proficiency) {
+              updated[skill.id] = Math.min(
+                (updated[skill.id] || 0) + 2, // 每次增加 1%
+                skill.proficiency
+              );
+              allFilled = false;
+            }
+          });
+          if (allFilled) {
+            clearInterval(interval); // 所有進度條填充完成時停止動畫
+          }
+          return updated;
+        });
+      }, 100); // 動畫每 100ms 更新一次
+    }
+  }, [loading, skills]);
 
   const groupedSkills = skills.reduce<Record<string, Skill[]>>((acc, skill) => {
     acc[skill.category] = acc[skill.category] || [];
@@ -67,7 +92,7 @@ const Skills: React.FC<SkillsProps> = ({ startAnimation }) => {
                       <div key={skill.id} className="skill-row">
                         <div className="skill-name">{skill.name}</div>
                         <Progress
-                          percent={skill.proficiency}
+                          percent={animatedProficiencies[skill.id] || 0} // 動態填充
                           showInfo={false}
                           strokeColor={{
                             '0%': colors.accent400,

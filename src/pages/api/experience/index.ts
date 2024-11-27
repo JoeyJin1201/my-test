@@ -9,7 +9,7 @@ interface Experience {
   description: string;
 }
 
-const experiences: Experience[] = [
+let experiences: Experience[] = [
   {
     id: 1,
     title: 'Frontend Developer',
@@ -63,7 +63,27 @@ const experiences: Experience[] = [
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     res.status(200).json(experiences);
+  } else if (req.method === 'POST') {
+    const { title, company, startDate, endDate, description } = req.body;
+
+    if (!title || !company || !startDate || !endDate || !description) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    const newExperience: Experience = {
+      id: experiences.length ? Math.max(...experiences.map((exp) => exp.id)) + 1 : 1,
+      title,
+      company,
+      startDate,
+      endDate,
+      description,
+    };
+
+    experiences.push(newExperience);
+    res.status(201).json(newExperience);
   } else {
     res.status(405).json({ message: 'Method not allowed' });
   }
 }
+
+export { experiences }; // 將數據導出以供其他路由使用

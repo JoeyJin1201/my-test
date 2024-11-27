@@ -1,12 +1,28 @@
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Modal,
+  Select,
+  Space,
+  Table,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
-import { Table, Form, Input, Button, Modal, message, Space } from 'antd';
-import axios from 'axios';
+
+import withAuth from '@/hoc/withAuth';
+
+import api from '@/utils/api';
 
 interface Skill {
   id: number;
   name: string;
   category: string;
+  proficiency: number;
 }
+
+const categoryOptions = ['Frontend', 'Backend', 'DevOps'];
 
 const AdminSkills: React.FC = () => {
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -17,7 +33,7 @@ const AdminSkills: React.FC = () => {
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const response = await axios.get<Skill[]>('/api/skills');
+        const response = await api.get<Skill[]>('/skills');
         setSkills(response.data);
       } catch (error) {
         message.error('Failed to fetch skills');
@@ -39,9 +55,19 @@ const AdminSkills: React.FC = () => {
     setIsModalVisible(true);
   };
 
+  const confirmDelete = (id: number) => {
+    Modal.confirm({
+      title: 'Are you sure you want to delete this skill?',
+      content: 'This action cannot be undone.',
+      okText: 'Yes',
+      cancelText: 'No',
+      onOk: () => handleDelete(id),
+    });
+  };
+
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`/api/skills/${id}`);
+      await api.delete(`/skills/${id}`);
       setSkills((prev) => prev.filter((skill) => skill.id !== id));
       message.success('Skill deleted successfully');
     } catch (error) {
@@ -52,15 +78,15 @@ const AdminSkills: React.FC = () => {
   const handleSubmit = async (values: Skill) => {
     try {
       if (editingSkill) {
-        await axios.put(`/api/skills/${editingSkill.id}`, values);
+        await api.put(`/skills/${editingSkill.id}`, values);
         setSkills((prev) =>
           prev.map((skill) =>
-            skill.id === editingSkill.id ? { ...skill, ...values } : skill
-          )
+            skill.id === editingSkill.id ? { ...skill, ...values } : skill,
+          ),
         );
         message.success('Skill updated successfully');
       } else {
-        const response = await axios.post('/api/skills', values);
+        const response = await api.post('/skills', values);
         setSkills((prev) => [...prev, response.data]);
         message.success('Skill added successfully');
       }
@@ -82,12 +108,18 @@ const AdminSkills: React.FC = () => {
       key: 'category',
     },
     {
+      title: 'Proficiency',
+      dataIndex: 'proficiency',
+      key: 'proficiency',
+      render: (proficiency: number) => `${proficiency}%`,
+    },
+    {
       title: 'Actions',
       key: 'actions',
       render: (_: any, record: Skill) => (
         <Space>
           <Button onClick={() => handleEdit(record)}>Edit</Button>
-          <Button danger onClick={() => handleDelete(record.id)}>
+          <Button danger onClick={() => confirmDelete(record.id)}>
             Delete
           </Button>
         </Space>
@@ -97,22 +129,56 @@ const AdminSkills: React.FC = () => {
 
   return (
     <div style={{ padding: '24px' }}>
-      <Button type="primary" onClick={handleAdd} style={{ marginBottom: '20px' }}>
+      <Button
+        type="primary"
+        onClick={handleAdd}
+        style={{ marginBottom: '20px' }}
+      >
         Add Skill
       </Button>
       <Table columns={columns} dataSource={skills} rowKey="id" />
       <Modal
         title={editingSkill ? 'Edit Skill' : 'Add Skill'}
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         onOk={() => form.submit()}
       >
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
-          <Form.Item label="Name" name="name" rules={[{ required: true }]}>
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[
+              { required: true, message: 'Please input the skill name!' },
+            ]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="Category" name="category" rules={[{ required: true }]}>
-            <Input />
+          <Form.Item
+            label="Category"
+            name="category"
+            rules={[{ required: true, message: 'Please select the category!' }]}
+          >
+            <Select
+              options={categoryOptions.map((category) => ({
+                label: category,
+                value: category,
+              }))}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Proficiency"
+            name="proficiency"
+            rules={[
+              { required: true, message: 'Please input the proficiency!' },
+              {
+                type: 'number',
+                min: 0,
+                max: 100,
+                message: 'Proficiency must be between 0 and 100!',
+              },
+            ]}
+          >
+            <InputNumber min={0} max={100} style={{ width: '100%' }} />
           </Form.Item>
         </Form>
       </Modal>
@@ -120,4 +186,4 @@ const AdminSkills: React.FC = () => {
   );
 };
 
-export default AdminSkills;
+export default withAuth(AdminSkills);

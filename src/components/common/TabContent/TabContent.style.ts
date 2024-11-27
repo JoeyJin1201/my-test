@@ -44,6 +44,11 @@ export const SectionContentWrap = styled.div`
   row-gap: 16px;
   padding: 24px;
 
+  @media (min-width: 960px) {
+    max-width: 70%;
+    margin: 0 auto;
+  }
+
   @media (max-width: 959px) {
     row-gap: 8px;
   }
