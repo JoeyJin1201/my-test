@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { colors } from '@/utils/colors';
+
 export const CategoriesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -7,28 +9,30 @@ export const CategoriesGrid = styled.div`
   width: 100%;
   margin-top: 8px;
 
-  @media screen and (max-width: 768px) {
+  @media (max-width: 959px) {
     gap: 16px;
   }
 `;
 
+export const SkillCardWrapper = styled.div`
+  display: inline-block;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
 export const SkillCard = styled.div`
-  background-color: #3e4e5e;
-  border: 1px solid #5e6e7e;
+  background-color: ${colors.neutral100};
+  border: 1px solid ${colors.neutral300};
   border-radius: 8px;
-  padding: 20px 20px 30px 20px;
-  color: #f4f4f4;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  padding: 24px 24px 32px 24px;
+  color: ${colors.neutral700};
+  box-shadow: 0 4px 12px ${colors.shadowLight};
   transition:
     transform 0.2s,
     box-shadow 0.2s;
-
-  h3 {
-    color: #00b3a4;
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 1.2rem;
-  }
 
   .skill-row {
     display: flex;
@@ -43,16 +47,23 @@ export const SkillCard = styled.div`
     .skill-name {
       font-size: 18px;
       font-weight: 500;
-      color: #f4f4f4;
+      color: ${colors.neutral700};
     }
 
     .ant-progress {
       width: 100%;
-    }
-  }
 
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+      .ant-progress-bg {
+        background: linear-gradient(
+          90deg,
+          ${colors.accent300} 0%,
+          ${colors.accent200} 100%
+        );
+      }
+
+      .ant-progress-trail {
+        background-color: ${colors.neutral400};
+      }
+    }
   }
 `;

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const KeyInText = styled.span`
-  font-family: monospace;
   font-size: 1em;
   white-space: nowrap;
   position: relative;

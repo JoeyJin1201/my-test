@@ -1,8 +1,10 @@
-import { Progress, Spin } from 'antd';
+import { Badge, Progress, Skeleton } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 import KeyInText from '@/components/KeyInTextWithCursor/KeyInTextWithCursor';
+
+import { colors } from '@/utils/colors';
 
 import * as style from './Skills.style';
 
@@ -50,7 +52,7 @@ const Skills: React.FC<SkillsProps> = ({ startAnimation }) => {
   return (
     <>
       {loading ? (
-        <Spin size="large" />
+        <Skeleton active />
       ) : (
         <>
           <h2>
@@ -58,24 +60,27 @@ const Skills: React.FC<SkillsProps> = ({ startAnimation }) => {
           </h2>
           <style.CategoriesGrid>
             {Object.entries(groupedSkills).map(([category, skills]) => (
-              <style.SkillCard key={category}>
-                <h3>{category}</h3>
-                {skills.map((skill) => (
-                  <div key={skill.id} className="skill-row">
-                    <div className="skill-name">{skill.name}</div>
-                    <Progress
-                      percent={skill.proficiency}
-                      showInfo={false}
-                      strokeColor={{
-                        '0%': '#4a90e2',
-                        '100%': '#00d2b2',
-                      }}
-                      trailColor="#5e6e7e"
-                      style={{ marginTop: '8px' }}
-                    />
-                  </div>
-                ))}
-              </style.SkillCard>
+              <style.SkillCardWrapper key={category}>
+                <Badge.Ribbon text={category} color={colors.accent400}>
+                  <style.SkillCard>
+                    {skills.map((skill) => (
+                      <div key={skill.id} className="skill-row">
+                        <div className="skill-name">{skill.name}</div>
+                        <Progress
+                          percent={skill.proficiency}
+                          showInfo={false}
+                          strokeColor={{
+                            '0%': colors.accent400,
+                            '100%': colors.accent300,
+                          }}
+                          trailColor={colors.accent100}
+                          style={{ marginTop: '8px' }}
+                        />
+                      </div>
+                    ))}
+                  </style.SkillCard>
+                </Badge.Ribbon>
+              </style.SkillCardWrapper>
             ))}
           </style.CategoriesGrid>
         </>

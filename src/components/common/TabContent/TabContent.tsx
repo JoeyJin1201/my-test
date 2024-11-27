@@ -48,10 +48,12 @@ const TabContent: React.FC<TabContentProps> = ({
           ref={(el) => {
             sectionRefs.current[index] = el;
           }}
-          style={section === 'contact' ? { maxHeight: 'calc(100vh - 36px)' } : {}}
+          style={{
+            height: section === 'profile' ? 'calc(100vh - 36px)' : undefined,
+            maxHeight: section === 'contact' ? 'calc(100vh - 36px)' : undefined,
+          }}
         >
-          <style.SectionContentWrap
-          >
+          <style.SectionContentWrap>
             {sectionMap(section, animationStarted[section] || false)}
           </style.SectionContentWrap>
         </style.StyledSection>

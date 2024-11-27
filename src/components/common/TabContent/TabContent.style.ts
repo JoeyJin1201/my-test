@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { colors } from '@/utils/colors';
+
 interface StyledSectionProps {
   $activeKey: string;
 }
@@ -9,17 +11,17 @@ interface SectionContainerProps extends StyledSectionProps {}
 const returnColor = (activeKey: string) => {
   switch (activeKey) {
     case 'profile':
-      return '#f4f6f9';
+      return colors.blueGray100;
     case 'skills':
-      return '#d9e1e8';
+      return colors.blueGray200;
     case 'experience':
-      return '#c2ccd4 ';
+      return colors.blueGray300;
     case 'projects':
-      return '#aebbc3';
+      return colors.blueGray400;
     case 'contact':
-      return '#97a7b1';
+      return colors.blueGray500;
     default:
-      return '#f4f6f9';
+      return colors.neutral100;
   }
 };
 
@@ -34,14 +36,15 @@ export const StyledSection = styled.section<StyledSectionProps>`
 `;
 
 export const SectionContentWrap = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   row-gap: 16px;
-  padding: 16px;
+  padding: 24px;
 
-  @media screen and (max-width: 768px) {
+  @media (max-width: 959px) {
     row-gap: 8px;
   }
 

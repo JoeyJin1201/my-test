@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { Source_Code_Pro } from 'next/font/google';
+import React, { useEffect, useState } from 'react';
 
 import * as style from './KeyInTextWithCursor.style';
 
@@ -8,6 +9,10 @@ interface KeyInTextWithCursorProps {
   startAnimation: boolean;
   className?: string;
 }
+
+const sourceCodePro = Source_Code_Pro({
+  display: 'swap',
+});
 
 const KeyInTextWithCursor: React.FC<KeyInTextWithCursorProps> = ({
   text,
@@ -33,7 +38,7 @@ const KeyInTextWithCursor: React.FC<KeyInTextWithCursorProps> = ({
   }, [index, text, speed, startAnimation]);
 
   return (
-    <style.KeyInText className={`${className} key-in-text`}>
+    <style.KeyInText className={`${className} key-in-text ${sourceCodePro.className}`}>
       {displayText}
       <span className="cursor" />
     </style.KeyInText>

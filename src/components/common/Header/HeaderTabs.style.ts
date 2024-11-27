@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 import { Tabs } from 'antd';
 
+import { colors } from '@/utils/colors';
+
 interface CustomTabsProps {
   activeKey: string;
   items: { key: string; label: string }[];
@@ -10,19 +12,19 @@ interface CustomTabsProps {
 const returnColor = (activeKey: string) => {
   switch (activeKey) {
     case 'profile':
-      return '#f4f6f9';
+      return colors.blueGray100;
     case 'skills':
-      return '#d9e1e8';
+      return colors.blueGray200;
     case 'experience':
-      return '#c2ccd4 ';
+      return colors.blueGray300;
     case 'projects':
-      return '#aebbc3';
+      return colors.blueGray400;
     case 'contact':
-      return '#97a7b1';
+      return colors.blueGray500;
     case 'admin':
       return 'salmon';
     default:
-      return '#f4f6f9';
+      return colors.neutral100;
   }
 };
 
@@ -42,14 +44,14 @@ export const CustomTabs = styled(Tabs)<CustomTabsProps>`
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
       transition: box-shadow ease-in-out 100ms;
 
-      @media screen and (min-width: 768px) {
+      @media (min-width: 960px) {
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
       }
 
       &:hover {
         box-shadow: 0 3px 5px rgba(0, 0, 0, 0.45);
 
-        @media screen and (min-width: 768px) {
+        @media (min-width: 960px) {
           box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
         }
       }
@@ -57,12 +59,12 @@ export const CustomTabs = styled(Tabs)<CustomTabsProps>`
       &.ant-tabs-tab-active {
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 
-        @media screen and (min-width: 768px) {
+        @media (min-width: 960px) {
           box-shadow: 0 8px 10px rgba(0, 0, 0, 0.5);
         }
       }
 
-      @media screen and (min-width: 768px) {
+      @media (min-width: 960px) {
         padding: 10px 16px;
       }
     }
@@ -123,7 +125,7 @@ export const CustomTabs = styled(Tabs)<CustomTabsProps>`
 
     &.ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap,
     &.ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-wrap {
-      @media screen and (min-width: 390px) {
+      @media (min-width: 390px) {
         justify-content: center;
       }
     }

@@ -16,7 +16,7 @@ interface Experience {
 }
 
 interface ExperienceProps {
-  startAnimation: boolean; // 动画触发状态
+  startAnimation: boolean;
 }
 
 const Experience: React.FC<ExperienceProps> = ({ startAnimation }) => {

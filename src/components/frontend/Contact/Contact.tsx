@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import KeyInText from '@/components/KeyInTextWithCursor/KeyInTextWithCursor';
 
 interface ContactProps {
-  startAnimation: boolean; // 动画触发状态
+  startAnimation: boolean;
 }
 
 const Contact: React.FC<ContactProps> = ({ startAnimation }) => {

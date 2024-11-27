@@ -19,7 +19,7 @@ const HeaderTabs: React.FC<HeaderTabsProps> = ({ activeKey, onTabClick, onTabCha
     { key: 'experience', label: 'Experience' },
     { key: 'projects', label: 'Projects' },
     { key: 'contact', label: 'Contact' },
-    ...(width && width > 768 ? [{ key: 'admin', label: 'Admin' }] : []),
+    ...(width && width >= 960 ? [{ key: 'admin', label: 'Admin' }] : []),
   ].filter(Boolean);
 
   return (

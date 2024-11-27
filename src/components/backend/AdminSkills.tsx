@@ -96,7 +96,7 @@ const AdminSkills: React.FC = () => {
   ];
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: '24px' }}>
       <Button type="primary" onClick={handleAdd} style={{ marginBottom: '20px' }}>
         Add Skill
       </Button>
