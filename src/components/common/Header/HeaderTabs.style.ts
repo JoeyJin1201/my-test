@@ -20,7 +20,7 @@ const returnColor = (activeKey: string) => {
     case 'contact':
       return '#97a7b1';
     default:
-      return '#ffffff';
+      return '#f4f6f9';
   }
 };
 
@@ -32,8 +32,8 @@ export const CustomTabs = styled(Tabs)<CustomTabsProps>`
     z-index: 1000;
     background: #ffffff;
     padding: 4px 4px 0px 4px;
-    border-bottom: 16px solid ${({ activeKey }) => returnColor(activeKey)};
-    transition: border ease-in-out 300ms;
+    /* border-bottom: 16px solid ${({ activeKey }) => returnColor(activeKey)}; */
+    /* transition: border ease-in-out 300ms; */
 
     &.ant-tabs .ant-tabs-tab {
       padding: 8px;

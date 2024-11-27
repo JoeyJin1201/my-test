@@ -19,7 +19,7 @@ const returnColor = (activeKey: string) => {
     case 'contact':
       return '#97a7b1';
     default:
-      return '#ffffff';
+      return '#f4f6f9';
   }
 };
 
