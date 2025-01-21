@@ -1,5 +1,5 @@
 import OrderBook from "../components/OrderBook";
-import { Roboto, Noto_Sans } from 'next/font/google'
+import { Noto_Sans } from 'next/font/google'
 
 const notoSans = Noto_Sans({
   weight: '500',
