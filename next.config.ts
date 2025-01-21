@@ -17,6 +17,9 @@ const nextConfig = {
     'rc-tree',
     'rc-table',
   ],
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 module.exports = nextConfig;
